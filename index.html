@@ -6,9 +6,11 @@ html,body{margin:0;height:100%;background:transparent;font-family:"Quicksand","N
 body{display:flex;align-items:center;justify-content:center}
 .card{display:flex;gap:4vw;padding:5vw;border-radius:6vw;background:linear-gradient(160deg,#fff4f7,#fbe4ec);box-shadow:0 1vw 4vw rgba(214,120,150,.18)}
 .flap{position:relative;width:30vw;height:34vw;perspective:60vw}
-.half{position:absolute;left:0;right:0;height:50%;box-sizing:border-box;overflow:hidden;background:#fde9ef;color:#c2456f;font-weight:700;font-size:22vw;line-height:34vw;text-align:center}
-.top{top:0;border-radius:3vw 3vw 0 0;border-bottom:max(2px,.8vw) solid #efbccd}
-.bot{bottom:0;border-radius:0 0 3vw 3vw;line-height:0}
+.half{position:absolute;left:0;right:0;height:50%;box-sizing:border-box;overflow:hidden;background:#fde9ef;color:#c2456f;font-weight:700;font-size:22vw;text-align:center;--lift:1.6vw}
+.half span{display:block;height:34vw;line-height:34vw;transform:translateY(calc(0vw - var(--lift)))}
+.top{top:0;border-radius:3vw 3vw 0 0;border-bottom:max(1.5px,.5vw) solid #efbccd}
+.bot{bottom:0;border-radius:0 0 3vw 3vw}
+.bot span{transform:translateY(calc(-17vw - var(--lift)))}
 .flip{transform-origin:bottom;z-index:2;animation:f .45s ease-in forwards}
 .flipb{transform-origin:top;z-index:2;transform:rotateX(90deg);animation:g .45s .45s ease-out forwards}
 @keyframes f{to{transform:rotateX(-90deg)}}@keyframes g{to{transform:rotateX(0)}}
@@ -18,7 +20,7 @@ body{display:flex;align-items:center;justify-content:center}
 <script>
 const P=new URLSearchParams(location.search),H24=P.get("24h")==="1";
 function set(el,v,old){const ap=el.querySelector(".ap");el.innerHTML="";
- const mk=(c,t)=>{const d=document.createElement("div");d.className="half "+c;d.textContent=t;el.appendChild(d);return d};
+ const mk=(c,t)=>{const d=document.createElement("div");d.className="half "+c;const s=document.createElement("span");s.textContent=t;d.appendChild(s);el.appendChild(d);return d};
  mk("top",v);mk("bot",old??v);
  if(old!=null&&old!==v){mk("top flip",old);const b=mk("bot flipb",v);b.addEventListener("animationend",()=>{set(el,v)})}
  if(ap)el.appendChild(ap)}
