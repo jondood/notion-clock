@@ -1,0 +1,32 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Flip Clock</title>
+<style>
+html,body{margin:0;height:100%;background:transparent;font-family:"Quicksand","Nunito","Segoe UI",system-ui,sans-serif}
+body{display:flex;align-items:center;justify-content:center}
+.card{display:flex;gap:4vw;padding:5vw;border-radius:6vw;background:linear-gradient(160deg,#fff4f7,#fbe4ec);box-shadow:0 1vw 4vw rgba(214,120,150,.18)}
+.flap{position:relative;width:30vw;height:34vw;perspective:60vw}
+.half{position:absolute;left:0;right:0;height:50%;overflow:hidden;background:#fde9ef;color:#c2456f;font-weight:700;font-size:22vw;line-height:34vw;text-align:center}
+.top{top:0;border-radius:3vw 3vw 0 0;border-bottom:.3vw solid #f6d3de}
+.bot{bottom:0;border-radius:0 0 3vw 3vw;line-height:0}
+.flip{transform-origin:bottom;z-index:2;animation:f .45s ease-in forwards}
+.flipb{transform-origin:top;z-index:2;transform:rotateX(90deg);animation:g .45s .45s ease-out forwards}
+@keyframes f{to{transform:rotateX(-90deg)}}@keyframes g{to{transform:rotateX(0)}}
+.ap{position:absolute;right:2vw;bottom:1.5vw;font-size:4vw;color:#d97a9a;z-index:3;font-weight:600}
+</style></head><body>
+<div class="card"><div class="flap" id="h"></div><div class="flap" id="m"><span class="ap" id="ap"></span></div></div>
+<script>
+const P=new URLSearchParams(location.search),H24=P.get("24h")==="1";
+function set(el,v,old){const ap=el.querySelector(".ap");el.innerHTML="";
+ const mk=(c,t)=>{const d=document.createElement("div");d.className="half "+c;d.textContent=t;el.appendChild(d);return d};
+ mk("top",v);mk("bot",old??v);
+ if(old!=null&&old!==v){mk("top flip",old);const b=mk("bot flipb",v);b.addEventListener("animationend",()=>{set(el,v)})}
+ if(ap)el.appendChild(ap)}
+let ph,pm;
+function tick(){const d=new Date();let h=d.getHours();const ap=h<12?"AM":"PM";if(!H24)h=h%12||12;
+ const hs=String(h).padStart(2,"0"),ms=String(d.getMinutes()).padStart(2,"0");
+ if(hs!==ph){set(document.getElementById("h"),hs,ph);ph=hs}
+ if(ms!==pm){set(document.getElementById("m"),ms,pm);pm=ms}
+ document.getElementById("ap").textContent=H24?"":ap}
+tick();setInterval(tick,1000);
+</script></body></html>
