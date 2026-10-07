@@ -16,6 +16,12 @@ body{display:flex;align-items:center;justify-content:center}
 @keyframes f{to{transform:rotateX(-90deg)}}@keyframes g{to{transform:rotateX(0)}}
 .ap{background:#fde9ef;color:#c2456f;font-weight:700;font-size:5vw;padding:1vw 1.8vw;border-radius:1.5vw;box-shadow:0 1vw 2vw rgba(214,120,150,.28)}
 .ap:empty{display:none}
+@media (prefers-color-scheme:dark){
+.half,.ap{background:#4a2a35;color:#f4b6c9}
+.top{border-bottom-color:#2a1820}
+.flap{filter:drop-shadow(0 1.2vw 2vw rgba(0,0,0,.45))}
+.ap{box-shadow:0 1vw 2vw rgba(0,0,0,.45)}
+}
 </style></head><body>
 <div class="row"><div class="flap" id="h"></div><div class="flap" id="m"></div><div class="ap" id="ap"></div></div>
 <script>
